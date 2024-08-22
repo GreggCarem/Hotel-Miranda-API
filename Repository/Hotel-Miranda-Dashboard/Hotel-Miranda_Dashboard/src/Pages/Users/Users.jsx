@@ -1,20 +1,33 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { HeaderMenu } from "../../Components/Header-menu/Header-menu";
 import { SideBar } from "../../Components/Side-Bar/Side-Bar";
-import UserLogin from "./../../assets/users.json";
+import {
+  fetchUsers,
+  deleteUser,
+  selectAllUsers,
+  selectUsersStatus,
+  selectUsersError,
+} from "../../Components/Redux/Slice/userSlice";
 import "./Users.scss";
 
 export default function Users() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const users = useSelector(selectAllUsers);
+  const userStatus = useSelector(selectUsersStatus);
+  const error = useSelector(selectUsersError);
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
-    setUsers(UserLogin);
-  }, []);
+    if (userStatus === "idle") {
+      dispatch(fetchUsers());
+    }
+  }, [userStatus, dispatch]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -23,21 +36,81 @@ export default function Users() {
   const filteredUsers = users
     .filter((user) => {
       if (filter === "active") {
-        return user.status.toLowerCase() === "active";
+        return user.status && user.status.toLowerCase() === "active";
       } else if (filter === "inactive") {
-        return user.status.toLowerCase() === "inactive";
+        return user.status && user.status.toLowerCase() === "inactive";
       }
       return true;
     })
     .filter((user) => {
       if (searchTerm === "") return true;
-      return user.full_name.toLowerCase().includes(searchTerm.toLowerCase());
+      return (
+        user.full_name &&
+        user.full_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     });
 
-  const handleDelete = (username) => {
-    const updatedUsers = users.filter((user) => user.username !== username);
-    setUsers(updatedUsers);
+  const handleDelete = (id) => {
+    dispatch(deleteUser(id));
   };
+
+  let content;
+
+  if (userStatus === "loading") {
+    content = <p>Loading...</p>;
+  } else if (userStatus === "succeeded") {
+    content = (
+      <table className="users-table">
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Full Name</th>
+            <th>Start Date</th>
+            <th>Job Position</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((user) => (
+              <tr key={user.id || user.username}>
+                {" "}
+                <td>
+                  <img
+                    src={user.image ? user.image.trim() : ""}
+                    alt={user.full_name || "N/A"}
+                    className="user-photo"
+                    onClick={() => navigate(`/edit-user/${user.id}`)}
+                  />
+                </td>
+                <td>{user.full_name || "N/A"}</td>
+                <td>{user.start_date || "N/A"}</td>
+                <td>{user.job_position || "N/A"}</td>
+                <td>{user.phone || "N/A"}</td>
+                <td>{user.status || "N/A"}</td>
+                <td>
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                    style={{ color: "red" }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7">No users found</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    );
+  } else if (userStatus === "failed") {
+    content = <p>{error}</p>;
+  }
 
   return (
     <div className="users-page">
@@ -67,46 +140,7 @@ export default function Users() {
             Create New User
           </button>
         </div>
-        <table className="users-table">
-          <thead>
-            <tr>
-              <th>Photo</th>
-              <th>Full Name</th>
-              <th>Start Date</th>
-              <th>Job Position</th>
-              <th>Phone</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.map((user) => (
-              <tr key={user.username}>
-                <td>
-                  <img
-                    src={user.image}
-                    alt={user.full_name}
-                    className="user-photo"
-                    onClick={() => navigate(`/edit-user/${user.username}`)}
-                  />
-                </td>
-                <td>{user.full_name}</td>
-                <td>{user.start_date}</td>
-                <td>{user.job_position}</td>
-                <td>{user.phone}</td>
-                <td>{user.status}</td>
-                <td>
-                  <button
-                    onClick={() => handleDelete(user.username)}
-                    style={{ color: "red" }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {content}
       </div>
     </div>
   );

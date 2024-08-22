@@ -63,7 +63,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import HotelLogo from "./../../assets/Logos/Hotel-Logo.jpeg";
-import { useAuth } from "../../Components/Redux/userContext";
+import { useAuth } from "../../Components/Redux/authContext";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -75,7 +75,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:5001/users?username=${username}&password=${password}`
+        `http://localhost:5003/users?username=${username}&password=${password}`
       );
       const users = await response.json();
 

@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../Components/Redux/userContext";
+import { useAuth } from "./Redux/authContext";
 
 const PrivateRoute = ({ children }) => {
   const { state } = useAuth();
