@@ -38,6 +38,9 @@ export const SideBar = ({ isSidebarOpen }) => {
       console.log("No User");
     }
   }, []);
+  const handleCreateNew = () => {
+    navigate("/edit-room/new");
+  };
 
   return (
     <div className={`sidebar-container ${isSidebarOpen ? "open" : "closed"}`}>

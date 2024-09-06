@@ -4,27 +4,27 @@
       "id": "1",
       "username": "admin",
       "password": "admin",
-      "full_name": "Gregoire Caremee",
+      "full_name": "Gregoire Careme",
       "job_position": "Manager",
       "job_description": "Overseeing daily operations and managing staff.",
       "email": "gregor@gmail.com",
       "phone": "555-005-6789",
       "start_date": "2022-11-20",
       "status": "Active",
-      "image": " User-Images/person-2.png"
+      "image": "https://www.kroger.com/product/images/large/front/0000000004430"
     },
     {
-      "id": "2",
-      "username": "coreytaylor",
-      "password": "slipknot",
-      "full_name": "Corey Taylor",
-      "job_position": "Vocalist",
-      "job_description": "Performing lead vocals for Slipknot.",
-      "email": "corey.taylor@slipknot.com",
-      "phone": "555-002-3456",
-      "start_date": "1997-01-01",
-      "status": "Active",
-      "image": "  User-Images/Corey-Taylor.jpeg"
+      "id": "3",
+      "username": "rande_acosta",
+      "password": "rande123",
+      "full_name": "Rande Acostaaaa",
+      "job_position": "Manager",
+      "job_description": "Rap God",
+      "email": "rande.acosta@gmail.com",
+      "phone": "555-005-6789",
+      "start_date": "2020-09-07",
+      "status": "Inactive",
+      "image": "   User-Images/Rxnde-kozta.jpeg"
     },
     {
       "id": "7",
@@ -77,66 +77,12 @@
       "start_date": "9/7/2020",
       "status": "Active",
       "image": "   User-Images/person-7.webp"
-    },
-    {
-      "id": "589ec0b5-a2be-48ed-8418-c6f738a6ab8d",
-      "full_name": "dfdfdfdfd",
-      "start_date": "",
-      "job_position": "",
-      "phone": "",
-      "status": "active",
-      "image": "",
-      "username": ""
-    },
-    {
-      "id": "96aae913-b84c-4b1e-8baa-1391594a09f2",
-      "full_name": "Nicolas ",
-      "start_date": "",
-      "job_position": "",
-      "phone": "",
-      "status": "active",
-      "image": "",
-      "username": ""
-    },
-    {
-      "id": "20e82c26-cfc9-4756-92df-61f1248d5afa",
-      "full_name": "dsdsdsds",
-      "start_date": "",
-      "job_position": "",
-      "phone": "",
-      "status": "active",
-      "image": "",
-      "username": ""
     }
   ],
   "bookings": [
     {
-      "guest": "John Doe",
-      "reservationID": "123456",
-      "photo": " Rooms-Images/Room-1.webp",
-      "orderDate": "2024-07-25",
-      "checkIn": "2024-08-01",
-      "checkOut": "2024-08-05",
-      "specialRequest": "Need a crib for the baby.",
-      "room_type": "Deluxe Suite",
-      "number": "101",
-      "status": "Booked"
-    },
-    {
-      "guest": "Jane Smith",
-      "reservationID": "654321",
-      "photo": " Rooms-Images/Room-2.jpeg",
-      "orderDate": "2024-07-20",
-      "checkIn": "2024-07-30",
-      "checkOut": "2024-08-02",
-      "specialRequest": "Allergic to peanuts, please ensure no peanuts in meals.",
-      "room_type": "Standard Room",
-      "number": "202",
-      "status": "Pending"
-    },
-    {
       "guest": "Alice Johnson",
-      "reservationID": "112233",
+      "id": "112233",
       "photo": " Rooms-Images/Room-3.jpeg",
       "orderDate": "2024-07-15",
       "checkIn": "2024-07-25",
@@ -148,7 +94,7 @@
     },
     {
       "guest": "Michael Brown",
-      "reservationID": "334455",
+      "id": "334455",
       "photo": " Rooms-Images/Room-4.jpeg",
       "orderDate": "2024-07-10",
       "checkIn": "2024-07-20",
@@ -160,7 +106,7 @@
     },
     {
       "guest": "Emily White",
-      "reservationID": "556677",
+      "id": "556677",
       "photo": " Rooms-Images/Room-5.webp",
       "orderDate": "2024-07-05",
       "checkIn": "2024-07-15",
@@ -172,7 +118,7 @@
     },
     {
       "guest": "Chris Green",
-      "reservationID": "778899",
+      "id": "778899",
       "photo": " Rooms-Images/Room-6.jpeg",
       "orderDate": "2024-06-30",
       "checkIn": "2024-07-10",
@@ -184,7 +130,7 @@
     },
     {
       "guest": "Laura Black",
-      "reservationID": "990011",
+      "id": "990011",
       "photo": " Rooms-Images/Room-7.jpeg",
       "orderDate": "2024-06-25",
       "checkIn": "2024-07-05",
@@ -195,20 +141,8 @@
       "status": "Booked"
     },
     {
-      "guest": "David White",
-      "reservationID": "223344",
-      "photo": " Rooms-Images/Room-.8.jpeg",
-      "orderDate": "2024-06-20",
-      "checkIn": "2024-06-30",
-      "checkOut": "2024-07-05",
-      "specialRequest": "Quiet room.",
-      "room_type": "Suite",
-      "number": "808",
-      "status": "Pending"
-    },
-    {
       "guest": "Susan Brown",
-      "reservationID": "445566",
+      "id": "445566",
       "photo": " Rooms-Images/Room-.9.jpeg",
       "orderDate": "2024-06-15",
       "checkIn": "2024-06-25",
@@ -220,7 +154,7 @@
     },
     {
       "guest": "Robert Johnson",
-      "reservationID": "667788",
+      "id": "667788",
       "photo": " Rooms-Images/Room-.10.webp",
       "orderDate": "2024-06-10",
       "checkIn": "2024-06-20",
@@ -229,6 +163,196 @@
       "room_type": "Standard Room",
       "number": "1010",
       "status": "Refund"
+    },
+    {
+      "id": "589b6887-0427-4995-a110-b7deb9b678ab",
+      "guest": "Jane Smithhhhh",
+      "orderDate": "",
+      "checkIn": "",
+      "checkOut": "",
+      "specialRequest": "",
+      "room_type": "",
+      "status": "Pending",
+      "photo": "https://www.kroger.com/product/images/large/front/0000000004430"
+    },
+    {
+      "id": "6337abb4-5a82-495f-8bf7-fc2afc8f1807",
+      "guest": "Jane Smithhhhh",
+      "orderDate": "",
+      "checkIn": "",
+      "checkOut": "",
+      "specialRequest": "",
+      "room_type": "",
+      "status": "Pending",
+      "photo": ""
+    }
+  ],
+  "rooms": [
+    {
+      "photo": "Rooms-Images/Room-4.jpeg",
+      "roomNumber": "104",
+      "id": "9345",
+      "bedType": "Double deluxe",
+      "facilities": [
+        "Air conditioning",
+        "Wi-Fi",
+        "Mini fridge"
+      ],
+      "rate": "$350 /night",
+      "offerPrice": "$315 /night",
+      "status": "Available",
+      "description": "Elegant Double Deluxe room with additional amenities for a comfortable stay."
+    },
+    {
+      "photo": "Rooms-Images/Room-5.webp",
+      "roomNumber": "105",
+      "id": "9346",
+      "bedType": "Queen room",
+      "facilities": [
+        "TV",
+        "Wi-Fi",
+        "Safe"
+      ],
+      "rate": "$320 /night",
+      "offerPrice": "$288 /night",
+      "status": "Booked",
+      "description": "Stylish Queen Room with all essential facilities for a relaxing stay."
+    },
+    {
+      "photo": "Rooms-Images/Room-6.jpeg",
+      "roomNumber": "106",
+      "id": "9347",
+      "bedType": "Twin room",
+      "facilities": [
+        "Wi-Fi",
+        "Air conditioning"
+      ],
+      "rate": "$280 /night",
+      "offerPrice": "$252 /night",
+      "status": "Available",
+      "description": "Comfortable Twin Room, perfect for friends or family staying together."
+    },
+    {
+      "photo": "Rooms-Images/Room-7.jpeg",
+      "roomNumber": "107",
+      "id": "9348",
+      "bedType": "Suite",
+      "facilities": [
+        "Mini bar",
+        "Balcony",
+        "Wi-Fi"
+      ],
+      "rate": "$600 /night",
+      "offerPrice": "$540 /night",
+      "status": "Booked",
+      "description": "Premium Suite offering top-notch luxury and stunning views."
+    },
+    {
+      "photo": "Rooms-Images/Room-.8.jpeg",
+      "roomNumber": "108",
+      "id": "9349",
+      "bedType": "Studio",
+      "facilities": [
+        "Wi-Fi",
+        "TV",
+        "Kitchenette"
+      ],
+      "rate": "$400 /night",
+      "offerPrice": "$360 /night",
+      "status": "Available",
+      "description": "Modern Studio room with a kitchenette for longer stays."
+    },
+    {
+      "photo": "Rooms-Images/Room-.9.jpeg",
+      "roomNumber": "109",
+      "id": "9350",
+      "bedType": "Double superior",
+      "facilities": [
+        "Air conditioning",
+        "Wi-Fi",
+        "TV"
+      ],
+      "rate": "$397 /night",
+      "offerPrice": "$357 /night",
+      "status": "Available",
+      "description": "Spacious Double Superior room with modern amenities and a comfortable double bed."
+    },
+    {
+      "photo": "Rooms-Images/Room-.10.webp",
+      "roomNumber": "110",
+      "id": "9351",
+      "bedType": "King suite",
+      "facilities": [
+        "Minibar",
+        "Wi-Fi",
+        "Balcony"
+      ],
+      "rate": "$500 /night",
+      "offerPrice": "$450 /night",
+      "status": "Available",
+      "description": "Luxurious King Suite with a private balcony and exquisite amenities."
+    }
+  ],
+  "contacts": [
+    {
+      "id": "#1a2b3c4",
+      "date": "2024-01-15",
+      "name": "Alice Johnson",
+      "message": "The hotel was absolutely fantastic. The rooms were spacious and the staff was incredibly friendly."
+    },
+    {
+      "id": "#2b3c4d5",
+      "date": "2024-02-22",
+      "name": "Mark Stevens",
+      "message": "An amazing experience! The amenities were top-notch, and the location was perfect for exploring the city."
+    },
+    {
+      "id": "#3c4d5e6",
+      "date": "2024-03-10",
+      "name": "Laura Smith",
+      "message": "I loved my stay at the hotel. The comfort and cleanliness exceeded my expectations."
+    },
+    {
+      "id": "#4d5e6f7",
+      "date": "2024-04-05",
+      "name": "Michael Brown",
+      "message": "A delightful stay with excellent service. The breakfast spread was delicious and varied."
+    },
+    {
+      "id": "#5e6f7g8",
+      "date": "2024-05-18",
+      "name": "Emily Davis",
+      "message": "The hotel’s atmosphere was so relaxing. The spa services were a wonderful addition to my stay."
+    },
+    {
+      "id": "#6f7g8h9",
+      "date": "2024-06-25",
+      "name": "John Wilson",
+      "message": "I had a fantastic time at this hotel. The views from my room were breathtaking and the pool area was superb."
+    },
+    {
+      "id": "#7g8h9i0",
+      "date": "2024-07-30",
+      "name": "Sophia Martinez",
+      "message": "Incredible stay! The hotel’s design was modern and elegant, and the staff was very attentive."
+    },
+    {
+      "id": "#8h9i0j1",
+      "date": "2024-08-12",
+      "name": "James Lee",
+      "message": "The attention to detail was impressive. The hotel provided a truly luxurious experience with exceptional comfort."
+    },
+    {
+      "id": "#9i0j1k2",
+      "date": "2024-09-20",
+      "name": "Olivia Taylor",
+      "message": "What a wonderful hotel! The central location made it easy to get around, and the service was impeccable."
+    },
+    {
+      "id": "#0j1k2l3",
+      "date": "2024-10-15",
+      "name": "Ethan Anderson",
+      "message": "The hotel was a perfect retreat. The room was beautifully decorated, and the staff went above and beyond to ensure a great stay."
     }
   ]
 }

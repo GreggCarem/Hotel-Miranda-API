@@ -39,7 +39,7 @@ function App() {
               }
             />
             <Route
-              path="/edit-booking/:reservationID"
+              path="/edit-booking/:id"
               element={
                 <PrivateRoute>
                   <EditBooking />
@@ -55,7 +55,7 @@ function App() {
               }
             />
             <Route
-              path="/edit-room/:roomID"
+              path="/edit-room/:id"
               element={
                 <PrivateRoute>
                   <EditRoom />
