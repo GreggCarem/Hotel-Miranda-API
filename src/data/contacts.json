@@ -1,0 +1,62 @@
+[
+  {
+    "id": "#1a2b3c4",
+    "date": "2024-01-15",
+    "name": "Alice Johnson",
+    "message": "The hotel was absolutely fantastic. The rooms were spacious and the staff was incredibly friendly."
+  },
+  {
+    "id": "#2b3c4d5",
+    "date": "2024-02-22",
+    "name": "Mark Stevens",
+    "message": "An amazing experience! The amenities were top-notch, and the location was perfect for exploring the city."
+  },
+  {
+    "id": "#3c4d5e6",
+    "date": "2024-03-10",
+    "name": "Laura Smith",
+    "message": "I loved my stay at the hotel. The comfort and cleanliness exceeded my expectations."
+  },
+  {
+    "id": "#4d5e6f7",
+    "date": "2024-04-05",
+    "name": "Michael Brown",
+    "message": "A delightful stay with excellent service. The breakfast spread was delicious and varied."
+  },
+  {
+    "id": "#5e6f7g8",
+    "date": "2024-05-18",
+    "name": "Emily Davis",
+    "message": "The hotel’s atmosphere was so relaxing. The spa services were a wonderful addition to my stay."
+  },
+  {
+    "id": "#6f7g8h9",
+    "date": "2024-06-25",
+    "name": "John Wilson",
+    "message": "I had a fantastic time at this hotel. The views from my room were breathtaking and the pool area was superb."
+  },
+  {
+    "id": "#7g8h9i0",
+    "date": "2024-07-30",
+    "name": "Sophia Martinez",
+    "message": "Incredible stay! The hotel’s design was modern and elegant, and the staff was very attentive."
+  },
+  {
+    "id": "#8h9i0j1",
+    "date": "2024-08-12",
+    "name": "James Lee",
+    "message": "The attention to detail was impressive. The hotel provided a truly luxurious experience with exceptional comfort."
+  },
+  {
+    "id": "#9i0j1k2",
+    "date": "2024-09-20",
+    "name": "Olivia Taylor",
+    "message": "What a wonderful hotel! The central location made it easy to get around, and the service was impeccable."
+  },
+  {
+    "id": "#0j1k2l3",
+    "date": "2024-10-15",
+    "name": "Ethan Anderson",
+    "message": "The hotel was a perfect retreat. The room was beautifully decorated, and the staff went above and beyond to ensure a great stay."
+  }
+]
