@@ -31,7 +31,7 @@ bookingsController.post("", async (req: Request, res: Response) => {
   const newBooking: Booking = req.body;
 
   try {
-    const createdBooking = await bookingService.create(newBooking);
+    const createdBooking = bookingService.create(newBooking);
     return res.status(201).send({ data: createdBooking });
   } catch (error) {
     return res.status(500).send({ error: "Error creating the booking" });
@@ -64,7 +64,7 @@ bookingsController.delete(
     const bookingId = req.params.id;
 
     try {
-      await bookingService.delete(bookingId);
+      bookingService.delete(bookingId);
       return res.status(200).send({ message: "Booking deleted successfully" });
     } catch (error) {
       return res.status(404).send({ message: "Error deleting Booking" });

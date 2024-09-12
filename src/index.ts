@@ -5,7 +5,7 @@ import { contactsController } from "./controllers/contactsController";
 import { usersController } from "./controllers/usercontroller";
 
 const app = express();
-const port = process.env.PORT || 3003;
+const port = process.env.PORT || 3005;
 
 app.use(express.json());
 
@@ -15,5 +15,5 @@ app.use("/bookings", bookingsController);
 app.use("/contacts", contactsController);
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(` http://localhost:${port}`);
 });

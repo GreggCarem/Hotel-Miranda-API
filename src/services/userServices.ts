@@ -9,7 +9,6 @@ export const readData = (): any => {
     const jsonData = fs.readFileSync(dbPath, "utf-8");
     return JSON.parse(jsonData);
   } catch (error) {
-    console.error(`Error reading the db.json file at path: ${dbPath}`, error);
     throw error;
   }
 };

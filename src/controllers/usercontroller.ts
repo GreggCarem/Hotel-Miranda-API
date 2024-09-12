@@ -16,10 +16,10 @@ usersController.post("/login", (req: Request, res: Response) => {
     return res.status(400).json({ message: "Username and password required" });
   }
 
-  const encrptPswrdReq = createHash("sha256").update(password).digest("hex");
-  const encryptPswrd = createHash("sha256").update("admin").digest("hex");
+  const passwordReq = createHash("sha256").update(password).digest("hex");
+  const passwordHard = createHash("sha256").update("admin").digest("hex");
 
-  if (username === "admin" && encrptPswrdReq === encryptPswrd) {
+  if (username === "admin" && passwordReq === passwordHard) {
     const payload = { username };
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
     return res.status(200).json({ token });
@@ -59,7 +59,7 @@ usersController.post("", async (req: Request, res: Response) => {
   }
 
   try {
-    const createdUser = await userService.create(newUser);
+    const createdUser = userService.create(newUser);
     return res.status(201).send({ data: createdUser });
   } catch (error) {
     return res.status(500).send({ message: "Error creating  User" });
@@ -74,7 +74,7 @@ usersController.put(
     const updatedUserData: User = req.body;
 
     try {
-      const updatedUser = await userService.update(userId, updatedUserData);
+      const updatedUser = userService.update(userId, updatedUserData);
       if (updatedUser) {
         return res.status(200).send({ data: updatedUser });
       } else {
@@ -93,7 +93,7 @@ usersController.delete(
     const userId = req.params.id;
 
     try {
-      await userService.delete(userId);
+      userService.delete(userId);
       return res.status(200).send({ message: "User deleted successfully!!!" });
     } catch (error) {
       if (error instanceof Error && error.message.includes("not found")) {

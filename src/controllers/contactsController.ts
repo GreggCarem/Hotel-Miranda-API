@@ -31,7 +31,7 @@ contactsController.post("", async (req: Request, res: Response) => {
   const newContact: Contact = req.body;
 
   try {
-    const createdContact = await contactService.create(newContact);
+    const createdContact = contactService.create(newContact);
     return res.status(201).send({ data: createdContact });
   } catch (error) {
     return res.status(500).send({ message: "Error creating the contact" });
@@ -45,7 +45,7 @@ contactsController.patch(
     const payload: updateContact = req.body;
 
     try {
-      const updatedContact = await contactService.updateArchiveStatus(payload);
+      const updatedContact = contactService.updateArchiveStatus(payload);
       return res.status(200).send({ data: updatedContact });
     } catch (error) {
       return res.status(404).send({ message: "Contact not found" });
@@ -60,7 +60,7 @@ contactsController.delete(
     const contactId = req.params.id;
 
     try {
-      await contactService.delete(contactId);
+      contactService.delete(contactId);
       return res.status(200).send({ message: "Contact deleted successfully" });
     } catch (error) {
       return res.status(404).send({ message: "Error deleting Contact" });
