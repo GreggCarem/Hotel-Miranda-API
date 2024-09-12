@@ -1,41 +1,65 @@
-import { Booking } from "../interfaces/Booking";
 import fs from "fs";
 import path from "path";
+import { Booking } from "../interfaces/Booking";
 
-const bookingsFilePath = path.join(__dirname, "../data/bookings.json");
+const dbPath = path.join(__dirname, "../data/db.json");
 
-const readBookingsFile = (): Booking[] => {
-  const data = fs.readFileSync(bookingsFilePath, "utf-8");
-  return JSON.parse(data);
+const readData = (): any => {
+  const jsonData = fs.readFileSync(dbPath, "utf-8");
+  return JSON.parse(jsonData);
 };
 
-const writeBookingsFile = (data: Booking[]): void => {
-  fs.writeFileSync(bookingsFilePath, JSON.stringify(data, null, 2), "utf-8");
+const writeData = (data: any) => {
+  const jsonData = JSON.stringify(data, null, 2);
+  fs.writeFileSync(dbPath, jsonData, "utf-8");
 };
 
-export const fetchAllBookings = (): Booking[] => {
-  return readBookingsFile();
-};
+export class BookingService {
+  getAll(): Booking[] {
+    const data = readData();
+    return data.bookings;
+  }
 
-export const fetchBookingById = (
-  reservationID: string
-): Booking | undefined => {
-  const bookings = readBookingsFile();
-  return bookings.find((booking) => booking.reservationID === reservationID);
-};
+  getById(id: string): Booking {
+    const data = readData();
+    const booking = data.bookings.find(
+      (bookingData: Booking) => bookingData.id === id
+    );
+    if (!booking) {
+      throw new Error(`Booking with id: ${id} not found`);
+    }
+    return booking;
+  }
 
-export const addBooking = (newBooking: Booking): Booking[] => {
-  const bookings = readBookingsFile();
-  bookings.push(newBooking);
-  writeBookingsFile(bookings);
-  return bookings;
-};
+  create(newBooking: Booking): Booking {
+    const data = readData();
+    data.bookings.push(newBooking);
+    writeData(data);
+    return newBooking;
+  }
 
-export const deleteBooking = (reservationID: string): Booking[] => {
-  let bookings = readBookingsFile();
-  bookings = bookings.filter(
-    (booking) => booking.reservationID !== reservationID
-  );
-  writeBookingsFile(bookings);
-  return bookings;
-};
+  update(id: string, updatedBooking: Booking): Booking {
+    const data = readData();
+    const bookingIndex = data.bookings.findIndex(
+      (booking: Booking) => booking.id === id
+    );
+    if (bookingIndex === -1) {
+      throw new Error(`Booking with id: ${id} not found`);
+    }
+    data.bookings[bookingIndex] = updatedBooking;
+    writeData(data);
+    return updatedBooking;
+  }
+
+  delete(id: string): void {
+    const data = readData();
+    const bookingIndex = data.bookings.findIndex(
+      (booking: Booking) => booking.id === id
+    );
+    if (bookingIndex === -1) {
+      throw new Error(`Booking with id: ${id} not found`);
+    }
+    data.bookings.splice(bookingIndex, 1);
+    writeData(data);
+  }
+}

@@ -1,50 +1,68 @@
-import { Request, Response } from "express";
-
-import {
-  updateRoomById as updateRoomByIdService,
-  fetchAllRooms,
-  fetchRoomById,
-  addRoom,
-  deleteRoomById,
-} from "../services/roomServices";
+import { Request, Response, Router } from "express";
+import { RoomService } from "../services/roomServices";
 import { Room } from "../interfaces/Room";
+import { authenticateTokenMiddleware } from "../middleware/authMiddleware";
 
-export const getAllRooms = (req: Request, res: Response): void => {
-  const rooms = fetchAllRooms();
-  res.json(rooms);
-};
+export const roomsController = Router();
 
-export const getRoomById = (req: Request, res: Response): void => {
-  const { id } = req.params;
-  const room = fetchRoomById(parseInt(id));
-  if (!room) {
-    res.status(404).json({ message: "Room not found" });
-  } else {
-    res.json(room);
+roomsController.use(authenticateTokenMiddleware);
+
+roomsController.get("", async (req: Request, res: Response) => {
+  const roomService = new RoomService();
+  return res.status(200).send({ data: roomService.getAll() });
+});
+
+roomsController.get(
+  "/:id",
+  async (req: Request<{ id: string }>, res: Response) => {
+    const roomService = new RoomService();
+    try {
+      return res.status(200).send({ data: roomService.getById(req.params.id) });
+    } catch (error) {
+      return res.status(404).send({ message: "Error getting Room ID" });
+    }
   }
-};
+);
 
-export const createRoom = (req: Request, res: Response): void => {
-  const newRoom: Room = { id: Date.now(), ...req.body };
-  const rooms = addRoom(newRoom);
-  res.status(201).json(rooms);
-};
+roomsController.post("", async (req: Request, res: Response) => {
+  const roomService = new RoomService();
+  const newRoom: Room = req.body;
 
-export const updateRoomById = (req: Request, res: Response): void => {
-  const { id } = req.params;
-  const updatedRoom: Partial<Room> = req.body;
-
-  const room = updateRoomByIdService(parseInt(id), updatedRoom);
-
-  if (!room) {
-    res.status(404).json({ message: "Room not found" });
-  } else {
-    res.json(room);
+  try {
+    const createdRoom = roomService.create(newRoom);
+    return res.status(201).send({ data: createdRoom });
+  } catch (error) {
+    return res.status(500).send({ message: "Error creating Room" });
   }
-};
+});
 
-export const removeRoom = (req: Request, res: Response): void => {
-  const { id } = req.params;
-  const rooms = deleteRoomById(parseInt(id));
-  res.json(rooms);
-};
+roomsController.put(
+  "/:id",
+  async (req: Request<{ id: string }, {}, Room>, res: Response) => {
+    const roomService = new RoomService();
+    const roomId = req.params.id;
+    const updatedRoomData: Room = req.body;
+
+    try {
+      const updatedRoom = roomService.update(roomId, updatedRoomData);
+      return res.status(200).send({ data: updatedRoom });
+    } catch (error) {
+      return res.status(404).send({ message: "Error updating Room" });
+    }
+  }
+);
+
+roomsController.delete(
+  "/:id",
+  async (req: Request<{ id: string }>, res: Response) => {
+    const roomService = new RoomService();
+    const roomId = req.params.id;
+
+    try {
+      roomService.delete(roomId);
+      return res.status(200).send({ message: "Room deleted successfully" });
+    } catch (error) {
+      return res.status(404).send({ message: "Error deleting Room" });
+    }
+  }
+);

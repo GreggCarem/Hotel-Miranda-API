@@ -4,3 +4,8 @@ export interface Contact {
   name: string;
   message: string;
 }
+
+export interface updateContact {
+  id: string;
+  archiveStatus: boolean;
+}

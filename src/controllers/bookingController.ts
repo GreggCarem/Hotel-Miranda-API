@@ -1,35 +1,73 @@
-import { Request, Response } from "express";
-import {
-  fetchAllBookings,
-  fetchBookingById,
-  addBooking,
-  deleteBooking,
-} from "../services/bookingServices";
+import { Request, Response, Router } from "express";
+import { BookingService } from "../services/bookingServices";
 import { Booking } from "../interfaces/Booking";
+import { authenticateTokenMiddleware } from "../middleware/authMiddleware";
 
-export const getAllBookings = (req: Request, res: Response): void => {
-  const bookings = fetchAllBookings();
-  res.json(bookings);
-};
+export const bookingsController = Router();
 
-export const getBookingById = (req: Request, res: Response): void => {
-  const { id } = req.params;
-  const booking = fetchBookingById(id);
-  if (!booking) {
-    res.status(404).json({ message: "Booking not found" });
-  } else {
-    res.json(booking);
+bookingsController.use(authenticateTokenMiddleware);
+
+bookingsController.get("", async (req: Request, res: Response) => {
+  const bookingService = new BookingService();
+  return res.status(200).send({ data: bookingService.getAll() });
+});
+
+bookingsController.get(
+  "/:id",
+  async (req: Request<{ id: string }>, res: Response) => {
+    const bookingService = new BookingService();
+    try {
+      return res
+        .status(200)
+        .send({ data: bookingService.getById(req.params.id) });
+    } catch (error) {
+      return res.status(404).send({ message: "Error getting Booking ID" });
+    }
   }
-};
+);
 
-export const createBooking = (req: Request, res: Response): void => {
+bookingsController.post("", async (req: Request, res: Response) => {
+  const bookingService = new BookingService();
   const newBooking: Booking = req.body;
-  const bookings = addBooking(newBooking);
-  res.status(201).json(bookings);
-};
 
-export const removeBooking = (req: Request, res: Response): void => {
-  const { id } = req.params;
-  const bookings = deleteBooking(id);
-  res.json(bookings);
-};
+  try {
+    const createdBooking = await bookingService.create(newBooking);
+    return res.status(201).send({ data: createdBooking });
+  } catch (error) {
+    return res.status(500).send({ error: "Error creating the booking" });
+  }
+});
+
+bookingsController.put(
+  "/:id",
+  async (req: Request<{ id: string }, {}, Booking>, res: Response) => {
+    const bookingService = new BookingService();
+    const bookingId = req.params.id;
+    const updatedBookingData: Booking = req.body;
+
+    try {
+      const updatedBooking = bookingService.update(
+        bookingId,
+        updatedBookingData
+      );
+      return res.status(200).send({ data: updatedBooking });
+    } catch (error) {
+      return res.status(404).send({ message: "Error updating Booking" });
+    }
+  }
+);
+
+bookingsController.delete(
+  "/:id",
+  async (req: Request<{ id: string }>, res: Response) => {
+    const bookingService = new BookingService();
+    const bookingId = req.params.id;
+
+    try {
+      await bookingService.delete(bookingId);
+      return res.status(200).send({ message: "Booking deleted successfully" });
+    } catch (error) {
+      return res.status(404).send({ message: "Error deleting Booking" });
+    }
+  }
+);

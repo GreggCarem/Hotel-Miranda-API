@@ -1,27 +1,37 @@
-import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { Jwt } from "../interfaces/User";
+import { Request, Response, NextFunction } from "express";
+
+declare module "express-serve-static-core" {
+  interface Request {
+    user?: Jwt;
+  }
+}
 
 dotenv.config();
 
-const secretKey = process.env.SECRET_KEY || "default_secret_key";
+const SECRET_KEY = process.env.SECRET_KEY || "fallback_secret_key";
 
-export const authenticateJWT = (
+export const authenticateTokenMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
-  const token = req.headers.authorization?.split(" ")[1];
+) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
-  if (token) {
-    jwt.verify(token, secretKey, (err: any, user: any) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
-      (req as any).user = user.any;
-      next();
-    });
-  } else {
-    res.sendStatus(401);
+  if (token == null) {
+    return res.sendStatus(401);
   }
+
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) {
+      return res.sendStatus(403);
+    }
+    const payload = decoded as Jwt;
+    req.user = payload;
+
+    next();
+  });
 };

@@ -1,52 +1,66 @@
 import fs from "fs";
 import path from "path";
-import { Contact } from "../interfaces/Contact";
+import { Contact, updateContact } from "../interfaces/Contact";
 
-const contactsFilePath = path.join(__dirname, "../data/contacts.json");
+const dbPath = path.join(__dirname, "../data/db.json");
 
-const readContactsFile = (): Contact[] => {
-  const data = fs.readFileSync(contactsFilePath, "utf-8");
-  return JSON.parse(data);
+const readData = (): any => {
+  const jsonData = fs.readFileSync(dbPath, "utf-8");
+  return JSON.parse(jsonData);
 };
 
-const writeContactsFile = (data: Contact[]): void => {
-  fs.writeFileSync(contactsFilePath, JSON.stringify(data, null, 2), "utf-8");
+const writeData = (data: any) => {
+  const jsonData = JSON.stringify(data, null, 2);
+  fs.writeFileSync(dbPath, jsonData, "utf-8");
 };
 
-export const fetchAllContacts = (): Contact[] => {
-  return readContactsFile();
-};
-
-export const fetchContactById = (id: string): Contact | undefined => {
-  const contacts = readContactsFile();
-  return contacts.find((contact) => contact.id === id);
-};
-
-export const addContact = (newContact: Contact): Contact[] => {
-  const contacts = readContactsFile();
-  contacts.push(newContact);
-  writeContactsFile(contacts);
-  return contacts;
-};
-
-export const updateContactById = (
-  id: string,
-  updatedContact: Partial<Contact>
-): Contact | undefined => {
-  const contacts = readContactsFile();
-  const index = contacts.findIndex((contact) => contact.id === id);
-
-  if (index !== -1) {
-    contacts[index] = { ...contacts[index], ...updatedContact };
-    writeContactsFile(contacts);
-    return contacts[index];
+export class ContactService {
+  getAll(): Contact[] {
+    const data = readData();
+    return data.contacts;
   }
-  return undefined;
-};
 
-export const deleteContactById = (id: string): Contact[] => {
-  let contacts = readContactsFile();
-  contacts = contacts.filter((contact) => contact.id !== id);
-  writeContactsFile(contacts);
-  return contacts;
-};
+  getById(id: string): Contact {
+    const data = readData();
+    const contact = data.contacts.find(
+      (contactData: Contact) => contactData.id === id
+    );
+    if (!contact) {
+      throw new Error(`Contact with id: ${id} not found`);
+    }
+    return contact;
+  }
+
+  create(newContact: Contact): Contact {
+    const data = readData();
+    data.contacts.push(newContact);
+    writeData(data);
+    return newContact;
+  }
+
+  updateArchiveStatus(payload: updateContact): Contact {
+    const data = readData();
+    const contactIndex = data.contacts.findIndex(
+      (contact: Contact) => contact.id === payload.id
+    );
+    if (contactIndex !== -1) {
+      data.contacts[contactIndex].archiveStatus = payload.archiveStatus;
+      writeData(data);
+      return data.contacts[contactIndex];
+    } else {
+      throw new Error(`Contact with id: ${payload.id} not found`);
+    }
+  }
+
+  delete(id: string): void {
+    const data = readData();
+    const contactIndex = data.contacts.findIndex(
+      (contact: Contact) => contact.id === id
+    );
+    if (contactIndex === -1) {
+      throw new Error(`Contact with id: ${id} not found`);
+    }
+    data.contacts.splice(contactIndex, 1);
+    writeData(data);
+  }
+}

@@ -1,50 +1,69 @@
-import { Request, Response } from "express";
+import { Request, Response, Router } from "express";
+import { ContactService } from "../services/contactServices";
+import { Contact, updateContact } from "../interfaces/Contact";
+import { authenticateTokenMiddleware } from "../middleware/authMiddleware";
 
-import {
-  updateContactById as updateContactByIdService,
-  fetchAllContacts,
-  fetchContactById,
-  addContact,
-  deleteContactById,
-} from "../services/contactServices";
-import { Contact } from "../interfaces/Contact";
+export const contactsController = Router();
 
-export const getAllContacts = (req: Request, res: Response): void => {
-  const contacts = fetchAllContacts();
-  res.json(contacts);
-};
+contactsController.use(authenticateTokenMiddleware);
 
-export const getContactById = (req: Request, res: Response): void => {
-  const { id } = req.params;
-  const contact = fetchContactById(id);
-  if (!contact) {
-    res.status(404).json({ message: "Contact not found" });
-  } else {
-    res.json(contact);
+contactsController.get("", async (req: Request, res: Response) => {
+  const contactService = new ContactService();
+  return res.status(200).send({ data: contactService.getAll() });
+});
+
+contactsController.get(
+  "/:id",
+  async (req: Request<{ id: string }>, res: Response) => {
+    const contactService = new ContactService();
+    try {
+      return res
+        .status(200)
+        .send({ data: contactService.getById(req.params.id) });
+    } catch (error) {
+      return res.status(404).send({ message: "Error getting Contact ID" });
+    }
   }
-};
+);
 
-export const createContact = (req: Request, res: Response): void => {
-  const newContact: Contact = { id: Date.now().toString(), ...req.body };
-  const contacts = addContact(newContact);
-  res.status(201).json(contacts);
-};
+contactsController.post("", async (req: Request, res: Response) => {
+  const contactService = new ContactService();
+  const newContact: Contact = req.body;
 
-export const updateContactById = (req: Request, res: Response): void => {
-  const { id } = req.params;
-  const updatedContact: Partial<Contact> = req.body;
-
-  const contact = updateContactByIdService(id, updatedContact);
-
-  if (!contact) {
-    res.status(404).json({ message: "Contact not found" });
-  } else {
-    res.json(contact);
+  try {
+    const createdContact = await contactService.create(newContact);
+    return res.status(201).send({ data: createdContact });
+  } catch (error) {
+    return res.status(500).send({ message: "Error creating the contact" });
   }
-};
+});
 
-export const removeContact = (req: Request, res: Response): void => {
-  const { id } = req.params;
-  const contacts = deleteContactById(id);
-  res.json(contacts);
-};
+contactsController.patch(
+  "/archive-status",
+  async (req: Request, res: Response) => {
+    const contactService = new ContactService();
+    const payload: updateContact = req.body;
+
+    try {
+      const updatedContact = await contactService.updateArchiveStatus(payload);
+      return res.status(200).send({ data: updatedContact });
+    } catch (error) {
+      return res.status(404).send({ message: "Contact not found" });
+    }
+  }
+);
+
+contactsController.delete(
+  "/:id",
+  async (req: Request<{ id: string }>, res: Response) => {
+    const contactService = new ContactService();
+    const contactId = req.params.id;
+
+    try {
+      await contactService.delete(contactId);
+      return res.status(200).send({ message: "Contact deleted successfully" });
+    } catch (error) {
+      return res.status(404).send({ message: "Error deleting Contact" });
+    }
+  }
+);

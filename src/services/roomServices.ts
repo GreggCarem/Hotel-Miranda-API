@@ -2,51 +2,58 @@ import fs from "fs";
 import path from "path";
 import { Room } from "../interfaces/Room";
 
-const roomsFilePath = path.join(__dirname, "../data/rooms.json");
+const dbPath = path.join(__dirname, "../data/db.json");
 
-const readRoomsFile = (): Room[] => {
-  const data = fs.readFileSync(roomsFilePath, "utf-8");
-  return JSON.parse(data);
+const readData = (): any => {
+  const jsonData = fs.readFileSync(dbPath, "utf-8");
+  return JSON.parse(jsonData);
 };
 
-const writeRoomsFile = (data: Room[]): void => {
-  fs.writeFileSync(roomsFilePath, JSON.stringify(data, null, 2), "utf-8");
+const writeData = (data: any) => {
+  const jsonData = JSON.stringify(data, null, 2);
+  fs.writeFileSync(dbPath, jsonData, "utf-8");
 };
 
-export const fetchAllRooms = (): Room[] => {
-  return readRoomsFile();
-};
-
-export const fetchRoomById = (id: number): Room | undefined => {
-  const rooms = readRoomsFile();
-  return rooms.find((room) => room.id === id);
-};
-
-export const addRoom = (newRoom: Room): Room[] => {
-  const rooms = readRoomsFile();
-  rooms.push(newRoom);
-  writeRoomsFile(rooms);
-  return rooms;
-};
-
-export const updateRoomById = (
-  id: number,
-  updatedRoom: Partial<Room>
-): Room | undefined => {
-  const rooms = readRoomsFile();
-  const index = rooms.findIndex((room) => room.id === id);
-
-  if (index !== -1) {
-    rooms[index] = { ...rooms[index], ...updatedRoom };
-    writeRoomsFile(rooms);
-    return rooms[index];
+export class RoomService {
+  getAll(): Room[] {
+    const data = readData();
+    return data.rooms;
   }
-  return undefined;
-};
 
-export const deleteRoomById = (id: number): Room[] => {
-  let rooms = readRoomsFile();
-  rooms = rooms.filter((room) => room.id !== id);
-  writeRoomsFile(rooms);
-  return rooms;
-};
+  getById(id: string): Room | null {
+    const data = readData();
+    const room = data.rooms.find((roomData: Room) => roomData.id === id);
+    if (!room) {
+      throw new Error(`Room with id: ${id} not found`);
+    }
+    return room;
+  }
+
+  create(newRoom: Room): Room {
+    const data = readData();
+    data.rooms.push(newRoom);
+    writeData(data);
+    return newRoom;
+  }
+
+  update(id: string, updatedRoom: Room): Room | null {
+    const data = readData();
+    const roomIndex = data.rooms.findIndex((room: Room) => room.id === id);
+    if (roomIndex === -1) {
+      throw new Error(`Room with id: ${id} not found`);
+    }
+    data.rooms[roomIndex] = updatedRoom;
+    writeData(data);
+    return updatedRoom;
+  }
+
+  delete(id: string): void {
+    const data = readData();
+    const roomIndex = data.rooms.findIndex((room: Room) => room.id === id);
+    if (roomIndex === -1) {
+      throw new Error(`Room with id: ${id} not found`);
+    }
+    data.rooms.splice(roomIndex, 1);
+    writeData(data);
+  }
+}

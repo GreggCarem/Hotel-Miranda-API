@@ -1,12 +1,18 @@
 export interface User {
+  id: string;
   username: string;
-  password: string;
-  full_name: string;
-  job_position: string;
-  job_description: string;
+  fullName: string;
+  password?: string;
   email: string;
+  photo: string;
+  entryDate: string;
+  positionDescription: string;
   phone: string;
-  start_date: string;
   status: string;
-  image: string;
+  position: string;
+}
+
+export interface Jwt {
+  username: string;
+  email: string;
 }

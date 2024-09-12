@@ -1,7 +1,6 @@
 export interface Booking {
+  id: string;
   guest: string;
-  reservationID: string;
-  photo: string;
   orderDate: string;
   checkIn: string;
   checkOut: string;
@@ -9,4 +8,5 @@ export interface Booking {
   room_type: string;
   number: string;
   status: string;
+  photo: string;
 }
