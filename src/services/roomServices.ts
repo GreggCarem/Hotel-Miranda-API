@@ -2,6 +2,9 @@ import fs from "fs";
 import path from "path";
 import { Room } from "../interfaces/Room";
 
+
+
+// Define this is in a new class 
 const dbPath = path.join(__dirname, "../data/db.json");
 
 const readData = (): any => {
@@ -13,6 +16,9 @@ const writeData = (data: any) => {
   const jsonData = JSON.stringify(data, null, 2);
   fs.writeFileSync(dbPath, jsonData, "utf-8");
 };
+
+
+//////////
 
 export class RoomService {
   getAll(): Room[] {

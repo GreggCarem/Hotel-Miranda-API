@@ -39,7 +39,7 @@ contactsController.post("", async (req: Request, res: Response) => {
 });
 
 contactsController.patch(
-  "/archive-status",
+  "/archive-status",//chnage to archive 
   async (req: Request, res: Response) => {
     const contactService = new ContactService();
     const payload: updateContact = req.body;
