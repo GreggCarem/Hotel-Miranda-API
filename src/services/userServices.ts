@@ -1,63 +1,34 @@
-import fs from "fs";
-import path from "path";
-import { User } from "../interfaces/User";
-
-const dbPath = path.join(__dirname, "../data/db.json");
-
-export const readData = (): any => {
-  try {
-    const jsonData = fs.readFileSync(dbPath, "utf-8");
-    return JSON.parse(jsonData);
-  } catch (error) {
-    throw error;
-  }
-};
-
-const writeData = (data: any) => {
-  const jsonData = JSON.stringify(data, null, 2);
-  fs.writeFileSync(dbPath, jsonData, "utf-8");
-};
+import { User, IUser } from "../models/User";
+import bcrypt from "bcrypt";
 
 export class UserService {
-  getAll(): User[] {
-    const data = readData();
-    return data.users;
+  async getAll(): Promise<IUser[]> {
+    return await User.find().exec();
   }
 
-  getById(id: string): User | null {
-    const data = readData();
-    const user = data.users.find((userData: User) => userData.id === id);
-    if (!user) {
-      throw new Error(`User with id: ${id} not found`);
+  async getById(id: string): Promise<IUser | null> {
+    return await User.findById(id).exec();
+  }
+
+  async create(newUser: IUser): Promise<IUser> {
+    const hashedPassword = await bcrypt.hash(newUser.password, 10);
+    newUser.password = hashedPassword;
+    const user = new User(newUser);
+    return await user.save();
+  }
+
+  async update(id: string, updatedUser: Partial<IUser>): Promise<IUser | null> {
+    if (updatedUser.password) {
+      updatedUser.password = await bcrypt.hash(updatedUser.password, 10);
     }
-    return user;
+    return await User.findByIdAndUpdate(id, updatedUser, { new: true }).exec();
   }
 
-  create(newUser: User): User {
-    const data = readData();
-    data.users.push(newUser);
-    writeData(data);
-    return newUser;
+  async delete(id: string): Promise<void> {
+    await User.findByIdAndDelete(id).exec();
   }
 
-  update(id: string, updatedUser: User): User {
-    const data = readData();
-    const userIndex = data.users.findIndex((user: User) => user.id === id);
-    if (userIndex === -1) {
-      throw new Error(`User with id: ${id} not found`);
-    }
-    data.users[userIndex] = updatedUser;
-    writeData(data);
-    return updatedUser;
-  }
-
-  delete(id: string): void {
-    const data = readData();
-    const userIndex = data.users.findIndex((user: User) => user.id === id);
-    if (userIndex === -1) {
-      throw new Error(`User with id: ${id} not found`);
-    }
-    data.users.splice(userIndex, 1);
-    writeData(data);
+  async findByUsername(username: string): Promise<IUser | null> {
+    return await User.findOne({ username }).exec();
   }
 }

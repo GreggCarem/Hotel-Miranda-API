@@ -1,65 +1,32 @@
-import fs from "fs";
-import path from "path";
-import { Booking } from "../interfaces/Booking";
-
-const dbPath = path.join(__dirname, "../data/db.json");
-
-const readData = (): any => {
-  const jsonData = fs.readFileSync(dbPath, "utf-8");
-  return JSON.parse(jsonData);
-};
-
-const writeData = (data: any) => {
-  const jsonData = JSON.stringify(data, null, 2);
-  fs.writeFileSync(dbPath, jsonData, "utf-8");
-};
+import { Booking, IBooking } from "../models/Booking";
 
 export class BookingService {
-  getAll(): Booking[] {
-    const data = readData();
-    return data.bookings;
+  async getAll(): Promise<IBooking[]> {
+    return await Booking.find().populate("userId").populate("roomId").exec();
   }
 
-  getById(id: string): Booking {
-    const data = readData();
-    const booking = data.bookings.find(
-      (bookingData: Booking) => bookingData.id === id
-    );
-    if (!booking) {
-      throw new Error(`Booking with id: ${id} not found`);
-    }
-    return booking;
+  async getById(id: string): Promise<IBooking | null> {
+    return await Booking.findById(id)
+      .populate("userId")
+      .populate("roomId")
+      .exec();
   }
 
-  create(newBooking: Booking): Booking {
-    const data = readData();
-    data.bookings.push(newBooking);
-    writeData(data);
-    return newBooking;
+  async create(newBooking: IBooking): Promise<IBooking> {
+    const booking = new Booking(newBooking);
+    return await booking.save();
   }
 
-  update(id: string, updatedBooking: Booking): Booking {
-    const data = readData();
-    const bookingIndex = data.bookings.findIndex(
-      (booking: Booking) => booking.id === id
-    );
-    if (bookingIndex === -1) {
-      throw new Error(`Booking with id: ${id} not found`);
-    }
-    data.bookings[bookingIndex] = updatedBooking;
-    writeData(data);
-    return updatedBooking;
+  async update(
+    id: string,
+    updatedBooking: Partial<IBooking>
+  ): Promise<IBooking | null> {
+    return await Booking.findByIdAndUpdate(id, updatedBooking, {
+      new: true,
+    }).exec();
   }
 
-  delete(id: string): void {
-    const data = readData();
-    const bookingIndex = data.bookings.findIndex(
-      (booking: Booking) => booking.id === id
-    );
-    if (bookingIndex === -1) {
-      throw new Error(`Booking with id: ${id} not found`);
-    }
-    data.bookings.splice(bookingIndex, 1);
-    writeData(data);
+  async delete(id: string): Promise<void> {
+    await Booking.findByIdAndDelete(id).exec();
   }
 }
