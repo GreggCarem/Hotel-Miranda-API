@@ -6,16 +6,17 @@ import { Contact } from "./models/Contact";
 import { faker } from "@faker-js/faker";
 import bcrypt from "bcrypt";
 
-const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/hotelDB";
+const mongoUri =
+  "mongodb+srv://gregorten1:2cPbAxeXZ8zaMKf8@hoteldb.l3pj1.mongodb.net/?retryWrites=true&w=majority&appName=hotelDB";
 
 mongoose
   .connect(mongoUri)
   .then(() => {
-    console.log("Connected to MongoDB");
+    console.log("Connected to  Atlas");
     seedRooms();
   })
   .catch((err) => {
-    console.error("Error connecting to MongoDB", err);
+    console.error("Error connecting to Atlas", err);
   });
 
 const seedRooms = async () => {
