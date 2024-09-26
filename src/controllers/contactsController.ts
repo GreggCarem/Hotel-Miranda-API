@@ -9,6 +9,7 @@ contactsController.get("/", async (req: Request, res: Response) => {
     const contacts = await contactService.getAll();
     res.status(200).json({ data: contacts });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Error retrieving contacts" });
   }
 });

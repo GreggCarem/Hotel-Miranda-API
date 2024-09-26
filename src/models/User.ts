@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IUser extends Document {
   username: string;
-  fullName: string;
+  full_name: string;
   email: string;
   password: string;
   photo: string;
@@ -13,17 +13,20 @@ export interface IUser extends Document {
   position: string;
 }
 
-const UserSchema: Schema = new Schema({
-  username: { type: String, required: true, unique: true },
-  fullName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  photo: { type: String, required: false },
-  entryDate: { type: Date, required: true },
-  positionDescription: { type: String, required: false },
-  phone: { type: String, required: true },
-  status: { type: String, required: true },
-  position: { type: String, required: true },
-});
+const UserSchema: Schema = new Schema(
+  {
+    username: { type: String, required: true, unique: true },
+    full_name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    photo: { type: String, required: false },
+    entryDate: { type: Date, required: true },
+    positionDescription: { type: String, required: false },
+    phone: { type: String, required: true },
+    status: { type: String, required: true },
+    position: { type: String, required: true },
+  },
+  { timestamps: true }
+);
 
 export const User = mongoose.model<IUser>("User", UserSchema);

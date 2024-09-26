@@ -1,29 +1,24 @@
-import { Contact, ContactInterface } from "../models/Contact";
+import { Contact } from "../models/Contact";
 
 export class ContactService {
-  async getAll(): Promise<ContactInterface[]> {
-    return await Contact.find().exec();
+  async getAll() {
+    return await Contact.find();
   }
 
-  async getById(id: string): Promise<ContactInterface | null> {
-    return await Contact.findById(id).exec();
+  async getById(id: string) {
+    return await Contact.findById(id);
   }
 
-  async create(newContact: ContactInterface): Promise<ContactInterface> {
+  async create(newContact: any) {
     const contact = new Contact(newContact);
     return await contact.save();
   }
 
-  async update(
-    id: string,
-    updatedContact: Partial<ContactInterface>
-  ): Promise<ContactInterface | null> {
-    return await Contact.findByIdAndUpdate(id, updatedContact, {
-      new: true,
-    }).exec();
+  async update(id: string, updatedContact: any) {
+    return await Contact.findByIdAndUpdate(id, updatedContact, { new: true });
   }
 
-  async delete(id: string): Promise<void> {
-    await Contact.findByIdAndDelete(id).exec();
+  async delete(id: string) {
+    return await Contact.findByIdAndDelete(id);
   }
 }

@@ -221,11 +221,7 @@
       "roomNumber": "104",
       "id": "9345",
       "bedType": "Double deluxe",
-      "facilities": [
-        "Air conditioning",
-        "Wi-Fi",
-        "Mini fridge"
-      ],
+      "facilities": ["Air conditioning", "Wi-Fi", "Mini fridge"],
       "rate": "$350 /night",
       "offerPrice": "$315 /night",
       "status": "Available",
@@ -236,11 +232,7 @@
       "roomNumber": "105",
       "id": "9346",
       "bedType": "Queen room",
-      "facilities": [
-        "TV",
-        "Wi-Fi",
-        "Safe"
-      ],
+      "facilities": ["TV", "Wi-Fi", "Safe"],
       "rate": "$320 /night",
       "offerPrice": "$288 /night",
       "status": "Booked",
@@ -251,10 +243,7 @@
       "roomNumber": "106",
       "id": "9347",
       "bedType": "Twin room",
-      "facilities": [
-        "Wi-Fi",
-        "Air conditioning"
-      ],
+      "facilities": ["Wi-Fi", "Air conditioning"],
       "rate": "$280 /night",
       "offerPrice": "$252 /night",
       "status": "Available",
@@ -265,11 +254,7 @@
       "roomNumber": "107",
       "id": "9348",
       "bedType": "Suite",
-      "facilities": [
-        "Mini bar",
-        "Balcony",
-        "Wi-Fi"
-      ],
+      "facilities": ["Mini bar", "Balcony", "Wi-Fi"],
       "rate": "$600 /night",
       "offerPrice": "$540 /night",
       "status": "Booked",
@@ -280,11 +265,7 @@
       "roomNumber": "108",
       "id": "9349",
       "bedType": "Studio",
-      "facilities": [
-        "Wi-Fi",
-        "TV",
-        "Kitchenette"
-      ],
+      "facilities": ["Wi-Fi", "TV", "Kitchenette"],
       "rate": "$400 /night",
       "offerPrice": "$360 /night",
       "status": "Available",
@@ -295,11 +276,7 @@
       "roomNumber": "109",
       "id": "9350",
       "bedType": "Double superior",
-      "facilities": [
-        "Air conditioning",
-        "Wi-Fi",
-        "TV"
-      ],
+      "facilities": ["Air conditioning", "Wi-Fi", "TV"],
       "rate": "$397 /night",
       "offerPrice": "$357 /night",
       "status": "Available",
@@ -310,11 +287,7 @@
       "roomNumber": "110",
       "id": "9351",
       "bedType": "King suite",
-      "facilities": [
-        "Minibar",
-        "Wi-Fi",
-        "Balcony"
-      ],
+      "facilities": ["Minibar", "Wi-Fi", "Balcony"],
       "rate": "$500 /night",
       "offerPrice": "$450 /night",
       "status": "Available",

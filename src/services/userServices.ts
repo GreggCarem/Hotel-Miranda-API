@@ -13,6 +13,7 @@ export class UserService {
   async create(newUser: IUser): Promise<IUser> {
     const hashedPassword = await bcrypt.hash(newUser.password, 10);
     newUser.password = hashedPassword;
+
     const user = new User(newUser);
     return await user.save();
   }
@@ -21,6 +22,7 @@ export class UserService {
     if (updatedUser.password) {
       updatedUser.password = await bcrypt.hash(updatedUser.password, 10);
     }
+
     return await User.findByIdAndUpdate(id, updatedUser, { new: true }).exec();
   }
 

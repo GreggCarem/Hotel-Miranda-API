@@ -12,17 +12,38 @@ const mongoUri =
 mongoose
   .connect(mongoUri)
   .then(() => {
-    console.log("Connected to  Atlas");
-    seedRooms();
+    console.log("Connected to MongoDB Atlas");
+    seedDatabase();
   })
   .catch((err) => {
-    console.error("Error connecting to Atlas", err);
+    console.error("Error connecting to MongoDB Atlas", err);
   });
+
+const dropCollections = async () => {
+  const collections = mongoose.connection.collections;
+
+  for (const key in collections) {
+    const collection = collections[key];
+    try {
+      await collection.drop();
+      console.log(`${key} collection dropped successfully.`);
+    } catch (err) {
+      if ((err as Error).message === "ns not found") {
+        console.log(`${key} collection does not exist.`);
+      } else {
+        console.error(
+          `Error dropping ${key} collection:`,
+          (err as Error).message
+        );
+      }
+    }
+  }
+};
 
 const seedRooms = async () => {
   const rooms = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     const room = new Room({
       roomNumber: faker.string.numeric(3),
       bedType: faker.helpers.arrayElement([
@@ -49,18 +70,17 @@ const seedRooms = async () => {
     rooms.push(savedRoom);
   }
 
-  console.log("Rooms successfully!");
+  console.log("Rooms seeded successfully!");
   seedUsers(rooms);
 };
-
 const seedUsers = async (rooms: any[]) => {
   const users = [];
 
-  for (let i = 0; i < 10; i++) {
-    const hashedPassword = await bcrypt.hash(faker.internet.password(), 10);
+  for (let i = 0; i < 20; i++) {
+    const hashedPassword = await bcrypt.hash("admin", 10);
     const user = new User({
       username: faker.internet.userName(),
-      fullName: faker.person.fullName(),
+      full_name: faker.person.fullName(),
       email: faker.internet.email(),
       password: hashedPassword,
       photo: faker.image.avatar(),
@@ -74,12 +94,11 @@ const seedUsers = async (rooms: any[]) => {
     users.push(savedUser);
   }
 
-  console.log("Users successfully!");
+  console.log("Users seeded successfully!");
   seedBookings(users, rooms);
 };
-
 const seedBookings = async (users: any[], rooms: any[]) => {
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     const randomUser = users[Math.floor(Math.random() * users.length)];
     const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
     const booking = new Booking({
@@ -93,12 +112,12 @@ const seedBookings = async (users: any[], rooms: any[]) => {
     await booking.save();
   }
 
-  console.log("Bookings successfully!");
+  console.log("Bookings seeded successfully!");
   seedContacts();
 };
 
 const seedContacts = async () => {
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     const contact = new Contact({
       date: faker.date.recent().toISOString(),
       name: faker.person.fullName(),
@@ -108,6 +127,11 @@ const seedContacts = async () => {
     await contact.save();
   }
 
-  console.log("Contacts successfully!");
+  console.log("Contacts seeded successfully!");
   mongoose.disconnect();
+};
+
+const seedDatabase = async () => {
+  await dropCollections();
+  await seedRooms();
 };
