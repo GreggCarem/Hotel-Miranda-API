@@ -5,7 +5,7 @@ import { Room } from "./models/Rooms";
 import { Contact } from "./models/Contact";
 import { faker } from "@faker-js/faker";
 import bcrypt from "bcrypt";
-
+//Uri
 const mongoUri =
   "mongodb+srv://gregorten1:2cPbAxeXZ8zaMKf8@hoteldb.l3pj1.mongodb.net/?retryWrites=true&w=majority&appName=hotelDB";
 
