@@ -3,15 +3,15 @@ import dotenv from "dotenv";
 import { Jwt } from "../interfaces/User";
 import { Request, Response, NextFunction } from "express";
 
+dotenv.config();
+
+const SECRET_KEY = process.env.SECRET_KEY || "fallback_secret_key";
+
 declare module "express-serve-static-core" {
   interface Request {
     user?: Jwt;
   }
 }
-
-dotenv.config();
-
-const SECRET_KEY = process.env.SECRET_KEY || "fallback_secret_key";
 
 export const authenticateTokenMiddleware = (
   req: Request,
@@ -21,7 +21,7 @@ export const authenticateTokenMiddleware = (
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
-  if (token == null) {
+  if (!token) {
     return res.sendStatus(401);
   }
 
@@ -29,9 +29,9 @@ export const authenticateTokenMiddleware = (
     if (err) {
       return res.sendStatus(403);
     }
+
     const payload = decoded as Jwt;
     req.user = payload;
-
     next();
   });
 };
