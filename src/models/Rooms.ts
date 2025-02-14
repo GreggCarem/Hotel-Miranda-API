@@ -1,4 +1,3 @@
-import Joi from "joi";
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface RoomInterface extends Document {
@@ -12,15 +11,15 @@ export interface RoomInterface extends Document {
   photo: string;
 }
 
-const RoomSchema = Joi.object({
-  roomNumber: Joi.string().required(),
-  bedType: Joi.string().valid("Single", "Double", "Queen", "King").required(),
-  facilities: Joi.array().items(Joi.string()).required(),
-  rate: Joi.number().positive().required(),
-  offerPrice: Joi.number().positive(),
-  status: Joi.string().valid("available", "booked", "maintenance").required(),
-  description: Joi.string().required(),
-  photo: Joi.string().uri().required(),
+const RoomSchema: Schema = new Schema({
+  roomNumber: { type: String, required: true, unique: true },
+  bedType: { type: String, required: true },
+  facilities: { type: [String], required: true },
+  rate: { type: String, required: true },
+  offerPrice: { type: String, required: true },
+  status: { type: String, required: true },
+  description: { type: String, required: true },
+  photo: { type: String, required: true },
 });
 
 export const Room = mongoose.model<RoomInterface>("Room", RoomSchema);
